@@ -1,127 +1,112 @@
-# Guía para Conectar con un Servidor MQTT Online con Adafruit
+# Cómo conectar con un servidor MQTT online con Adafruit
 
-Esta guía detalla los pasos para configurar y conectar un PLC S7-1200 con un servidor MQTT online utilizando la librería MQTT de Siemens y Adafruit IO como broker.
-
-> ℹ️ **Nota**: Este ejemplo utiliza **TIA Portal V19** y un controlador **S7-1200**.
+> ℹ️ **Nota**: Este tutorial está diseñado para configuraciones con TIA Portal V19 y un PLC Siemens S7-1200. Ajusta las instrucciones según tu entorno de trabajo.
 
 ## Tabla de Contenidos
 - [Introducción](#introducción)
-- [Descarga e Instalación de la Librería MQTT](#descarga-e-instalación-de-la-librería-mqtt)
-- [Configuración del Bloque MQTT en TIA Portal](#configuración-del-bloque-mqtt-en-tia-portal)
-- [Configuración de la Cuenta en Adafruit IO](#configuración-de-la-cuenta-en-adafruit-io)
-- [Integración del PLC con Adafruit IO](#integración-del-plc-con-adafruit-io)
-- [Conclusión](#conclusión)
-- [Referencias](#referencias)
-
----
+- [Descarga de la Librería MQTT](#descarga-de-la-librería-mqtt)
+- [Configuración en TIA Portal](#configuración-en-tia-portal)
+  - [Importar la Librería](#importar-la-librería)
+  - [Configurar el Bloque MQTT Client](#configurar-el-bloque-mqtt-client)
+  - [Conexión de Entradas y Salidas](#conexión-de-entradas-y-salidas)
+  - [Segmentos Adicionales](#segmentos-adicionales)
+- [Parámetros del Bloque](#parámetros-del-bloque)
+- [Configuración en Adafruit](#configuración-en-adafruit)
+  - [Crear una Cuenta](#crear-una-cuenta)
+  - [Crear un Feed](#crear-un-feed)
+  - [Configurar un Dashboard](#configurar-un-dashboard)
+- [Conexión del PLC al Servidor MQTT](#conexión-del-plc-al-servidor-mqtt)
+- [Referencias Adicionales](#referencias-adicionales)
 
 ## Introducción
-En esta guía, aprenderás a:
-1. Descargar y configurar la librería MQTT para controladores Siemens.
-2. Configurar bloques y parámetros en TIA Portal.
-3. Crear una cuenta y configurar feeds en Adafruit IO.
-4. Integrar el PLC con el servidor MQTT de Adafruit IO.
+Este tutorial describe cómo configurar una conexión MQTT entre un PLC Siemens y un servidor online de Adafruit utilizando la librería MQTT de Siemens. El objetivo es enviar datos desde el PLC a un feed de Adafruit y visualizarlos en un dashboard.
 
 ---
 
-## Descarga e Instalación de la Librería MQTT
-1. Descarga la librería MQTT desde el sitio oficial de Siemens:
-   - [Enlace a la librería MQTT](https://support.industry.siemens.com/cs/document/109780503/libraries-for-communication-for-simatic-controllers?dti=0&lc=en-ES)
-   - **Nota**: Asegúrate de descargar la versión compatible con TIA Portal V19.
-   
-   ![Descarga de la librería MQTT](#)
-
-2. Una vez descargada, extrae el contenido del archivo ZIP.
-
-3. Abre TIA Portal y dirígete a la pestaña **Librerías** (ícono de libro con una flecha verde). 
-   - Selecciona el archivo extraído de la librería.
-
-   ![Importar librería en TIA Portal](#)
+## Descarga de la Librería MQTT
+Primero, descarga la librería MQTT desde el sitio oficial de Siemens compatible con tu versión de TIA Portal. [Enlace de descarga aquí.](https://support.industry.siemens.com/cs/document/109780503)
 
 ---
 
-## Configuración del Bloque MQTT en TIA Portal
-1. Localiza la carpeta `LMQTT` dentro de la librería importada y selecciona el bloque `LMQTT_Client`.
-   
-   ![Selección del bloque LMQTT_Client](#)
+## Configuración en TIA Portal
 
-2. Inserta el bloque en tu programa y asigna las entradas y salidas del bloque a un DB correspondiente.
+### Importar la Librería
+1. Abre **TIA Portal**.
+2. Ve a la sección **Librerías** (icono de libro con una flecha verde).
+3. Selecciona el archivo descargado de la librería y cárgalo al proyecto.
 
-3. Añade dos segmentos adicionales como se muestra en la siguiente imagen:
-   
-   ![Configuración de segmentos](#)
+   ![Importar librería en TIA Portal](./images/Step1_TIAPortalConfig.png)
 
-4. Configura un segmento adicional en la parte superior para inicializar los parámetros.
+### Configurar el Bloque MQTT Client
+1. Dentro de la librería, abre la carpeta `LMQTT` y selecciona `LMQTT_Client`.
+2. Arrastra el bloque `FB` al programa del PLC.
 
-### Parámetros del Bloque MQTT
-Completa la configuración de los parámetros del bloque según la siguiente tabla:
+   ![Seleccionar bloque MQTT](./images/Step3_LibraryConfig.png)
 
-| **Nombre**            | **Tipo**        | **Descripción**                                                                                       |
-|------------------------|-----------------|-------------------------------------------------------------------------------------------------------|
-| `enable`              | Input Bool      | TRUE: Conexión al broker MQTT establecida. FALSE: La conexión está rota.                              |
-| `publish`             | Input Bool      | Publica `publishMsgPayload` en `mqttTopic` con `retain` y `qos`.                                      |
-| `subscribe`           | Input Bool      | Suscribe a `mqttTopic` con `qos`.                                                                     |
-| `retain`              | Input Bool      | TRUE: Mensaje retenido. FALSE: Sin retención.                                                         |
-| `qos`                 | Input USInt     | Nivel de calidad de servicio (0, 1, 2).                                                               |
-| `publishMsgLen`       | Input UDInt     | Tamaño del mensaje a publicar.                                                                        |
-| `timeOut`             | Input Time      | Tiempo de espera para operaciones.                                                                    |
-| `valid`               | Output Bool     | TRUE: Bloque funcionando sin errores.                                                                 |
-| `status`              | Output Word     | Código de estado o error.                                                                             |
+### Conexión de Entradas y Salidas
+Conecta las entradas y salidas del bloque con los parámetros correspondientes del DB como se muestra:
 
----
+   ![Configuración de entradas y salidas](./images/Step4_OBConfig.png)
 
-## Configuración de la Cuenta en Adafruit IO
-1. Abre tu navegador web (por ejemplo, Brave) y accede a [Adafruit IO](https://io.adafruit.com/).
+### Segmentos Adicionales
+Añade los segmentos requeridos para enviar y recibir datos.
 
-2. Regístrate o inicia sesión en tu cuenta.
-
-   ![Página de inicio de sesión de Adafruit IO](#)
-
-3. Ve a la pestaña **Feeds** y selecciona **New Feed** para crear un nuevo feed:
-   - Introduce un nombre para el feed.
-   - Haz clic en **Crear**.
-
-   ![Creación de un feed](#)
-
-4. Dirígete a la pestaña **Dashboards** y selecciona **New Dashboard**:
-   - Asigna un nombre al dashboard.
-   - Haz clic en **Crear**.
-
-   ![Creación de un dashboard](#)
-
-5. Abre el dashboard creado, haz clic en el ícono de engranaje en la parte superior derecha y selecciona **Create New Block**:
-   - Elige la opción **Stream** y selecciona el feed que creaste previamente.
-   - Configura el bloque con un título y diseño personalizado o utiliza la configuración predeterminada.
-
-   ![Configuración de bloques en el dashboard](#)
-
-6. Guarda los cambios haciendo clic en **Save Layout**.
+   - **Segmento de envío**: Configura el envío de datos.
+     ![Segmento de envío](./images/Step5_SendConfig.png)
+   - **Segmento general**: Configura la inicialización.
+     ![Segmento general](./images/Step7_Block.png)
 
 ---
 
-## Integración del PLC con Adafruit IO
-1. Configura la IP o DNS del servidor MQTT en el PLC. Para Adafruit IO, usa las siguientes credenciales:
-   - **Servidor DNS**: `io.adafruit.com`
-   - **Tópico**: `<nombre_usuario>/f/<nombre_feed>` (ejemplo: `Aitor_Perez/f/ejemplo`).
+## Parámetros del Bloque
 
-2. Encuentra tu **Username** y **Active Key**:
-   - Haz clic en el ícono de llave amarilla en la esquina superior derecha.
-   - Copia tu **Username** y **Active Key**.
-
-   ![Obtención de credenciales en Adafruit IO](#)
-
-3. Configura el bloque `LMQTT_Client` en TIA Portal con estas credenciales.
-
-4. Define el largo de los caracteres y el mensaje a enviar. Verifica la conexión con el servidor.
+| Nombre              | Tipo       | Tipo de Data          | Descripción                                                                                   |
+|---------------------|------------|-----------------------|-----------------------------------------------------------------------------------------------|
+| **enable**          | Input      | Bool                  | `TRUE`: Establece y mantiene la conexión. `FALSE`: Conexión rota.                             |
+| **publish**         | Input      | Bool                  | Publica el mensaje en el feed configurado.                                                   |
+| **subscribe**       | Input      | Bool                  | Se suscribe al tópico especificado.                                                          |
+| **retain**          | Input      | Bool                  | Define si los datos se envían con la bandera "retain".                                        |
+| **qos**             | Input      | USInt                 | Nivel de Calidad de Servicio (QoS): 0, 1 o 2.                                                |
+| **valid**           | Output     | Bool                  | `TRUE`: Bloque funcionando sin errores.                                                      |
+| **status**          | Output     | Word                  | Código de estado y error.                                                                    |
+| **connParam**       | InOut      | `LMQTT_typeConnParam` | Parámetros de conexión al servidor MQTT.                                                     |
 
 ---
 
-## Conclusión
-Siguiendo estos pasos, habrás configurado un PLC Siemens S7-1200 para comunicarse con el servidor MQTT de Adafruit IO. Puedes visualizar los datos en tiempo real a través del dashboard de Adafruit.
+## Configuración en Adafruit
+
+### Crear una Cuenta
+1. Ve a [Adafruit IO](https://io.adafruit.com/) y crea una cuenta.
+2. Inicia sesión en la plataforma.
+
+   ![Inicio de sesión en Adafruit](./images/Step8_AdafruitLogin.jpeg)
+
+### Crear un Feed
+1. Accede a la sección **Feeds**.
+2. Haz clic en **New Feed** y crea un feed con el nombre deseado.
+
+   ![Crear un feed](./images/Step12_FeedConfig.jpeg)
+
+### Configurar un Dashboard
+1. Ve a la sección **Dashboards** y selecciona **New Dashboard**.
+2. Diseña tu dashboard agregando bloques visuales, como `Stream`.
+
+   ![Configurar dashboard](./images/Step19_DashboardEdit.jpeg)
 
 ---
 
-## Referencias
-- [Librería MQTT para Siemens](https://support.industry.siemens.com/cs/document/109780503/libraries-for-communication-for-simatic-controllers?dti=0&lc=en-ES)
-- [Adafruit IO](https://io.adafruit.com/)
-- [Documentación Completa en PDF](https://mega.nz/folder/hygSxYIZ#nCYbpJVOV0Q0RaLuluCMSw)
+## Conexión del PLC al Servidor MQTT
+1. Configura el bloque MQTT en TIA Portal con los siguientes datos:
+   - **Servidor**: `io.adafruit.com`
+   - **Usuario**: Tu nombre de usuario de Adafruit.
+   - **Contraseña**: Tu clave activa (Active Key).
+   - **Tópico**: `<Usuario>/f/<Nombre del Feed>`
+
+2. Verifica que la conexión se establezca correctamente.
+
+---
+
+## Referencias Adicionales
+Para más detalles, consulta el [PDF oficial](https://mega.nz/folder/hygSxYIZ#nCYbpJVOV0Q0RaLuluCMSw).
+
+> ⚠️ **Nota**: Asegúrate de seguir todas las instrucciones según la versión de tu software y hardware.
