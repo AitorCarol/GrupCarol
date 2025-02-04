@@ -11,9 +11,13 @@ Este directorio contiene ejemplos, manuales y proyectos relacionados con la conf
 
 ## Ejemplos Disponibles
 
-### [EPC Lector USB](EPCLectorUSB/README.md)
-- **Descripción**: Ejemplo de cómo conectar un PLC SIEMENS con un PLC Omron vía NodeRed.
+### [Conexión Node-RED entre plc Omron y Simatic](Conexión Node-RED entre plc Omron y Simatic/README.md)
+ - **Descripción**: Ejemplo de cómo conectar un PLC SIEMENS con un PLC Omron vía NodeRed.
+
+### [TiaPortalMQTTRemoto](TiaPortalMQTTRemoto/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT externo con un PLC SIEMENS.
+
+### [TiaPortalMQTTInterno](TiaPortalMQTTInterno/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT interno con un PLC SIEMENS.
 
 ## Cómo Usar Este Directorio
