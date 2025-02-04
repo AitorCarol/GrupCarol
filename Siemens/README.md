@@ -14,10 +14,10 @@ Este directorio contiene ejemplos, manuales y proyectos relacionados con la conf
 ### [Conexión Node-RED entre plc Omron y Simatic](Conexión Node-RED entre plc Omron y Simatic/README.md)
  - **Descripción**: Ejemplo de cómo conectar un PLC SIEMENS con un PLC Omron vía NodeRed.
 
-### [TiaPortalMQTTRemoto](TiaPortalMQTTRemoto/README.md)
+### [TiaPortalMQTTRemoto] (TiaPortalMQTTRemoto/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT externo con un PLC SIEMENS.
 
-### [TiaPortalMQTTInterno](TiaPortalMQTTInterno/README.md)
+### [TiaPortalMQTTInterno][TiaPortalMQTTInterno/README.md]
 - **Descripción**: Ejemplo de cómo conectar a un MQTT interno con un PLC SIEMENS.
 
 ## Cómo Usar Este Directorio
@@ -36,3 +36,5 @@ Las contribuciones son bienvenidas. Si tienes un ejemplo o recurso adicional rel
 4. Envía un Pull Request con los cambios.
 
 **¡Gracias por colaborar!**
+
+[def]: TiaPortalMQTTInterno/README.md

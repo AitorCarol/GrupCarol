@@ -11,12 +11,22 @@ Este directorio contiene ejemplos, manuales y proyectos relacionados con la conf
 
 ## Ejemplos Disponibles
 
-### [EPC Lector USB](EPCLectorUSB/README.md)
+### [Conexión Node-RED entre plc Omron y Simatic] (Conexión Node-RED entre plc Omron y Simatic/README.md)
 - **Descripción**: Ejemplo de cómo conectar un PLC SIEMENS con un PLC Omron vía NodeRed.
+
+### [MQTT JSON Omron] (MQTT JSON Omron/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT externo en JSON con un PLC Omron.
+
+### [MQTT JSON Omron Mosquitto] (MQTT JSON Omron Mosquitto/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT interno en JSON con un PLC Omron.
+
+### [MQTT Omron] (MQTT Omron/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT externo con un PLC Omron.
+
+### [MQTT Omron Mosquitto] (MQTT Omron Mosquitto/README.md)
 - **Descripción**: Ejemplo de cómo conectar a un MQTT interno con un PLC Omron.
+
+### [Variador M1] (Variador M1/README.md)
 - **Descripción**: Ejemplo de cómo conectar un variador M1 con FSoE.
 
 ## Cómo Usar Este Directorio

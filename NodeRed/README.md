@@ -11,8 +11,10 @@ Este directorio contiene ejemplos, manuales y proyectos relacionados con la conf
 
 ## Ejemplos Disponibles
 
-### [EPC Lector USB](EPCLectorUSB/README.md)
+### [Conexion Node-RED con InfluxDB y Grafana](Conexion Node-RED con InfluxDB y Grafana/README.md)
 - **Descripción**: Ejemplo de cómo conectar NodeRed con InfluxDB y Grafana.
+
+### [Conexión Node-RED entre plc Omron y Simatic](Conexión Node-RED entre plc Omron y Simatic/README.md)
 - **Descripción**: Ejemplo de cómo conectar un PLC SIEMENS con un PLC Omron vía NodeRed.
 
 ## Cómo Usar Este Directorio
